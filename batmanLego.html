@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./node_modules/three/build/three.min.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="./node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script src="./node_modules/three/examples/js/postprocessing"></script>
+
+    <script>
+        let scene, camera, renderer;
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x020202);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerHeight/window.innerWidth, 1, 50000);
+            camera.position.y = 310;
+            camera.position.x = 500;
+
+            controls = new THREE.OrbitControls(camera);
+            controls.addEventListener('change', renderer);
+
+            hlight = new THREE.AmbinetLight(0x404040, 100);
+            scene.add(hlight);
+
+            directionalLight = new THREE.DirectionalLight(0xffccaa, 3);
+            directionalLight.position.set(0, 0, -1);
+            scene.add(directionalLight);
+
+            // let light = new THREE.PointLight(0xc4c4c4, 10);
+            // light.position.set(0, 300, 500);
+            // scene.add(light);
+
+            // let light2 = new THREE.PointLight(0xc4c4c4, 10);
+            // light2.position.set(500, 100, 0);
+            // scene.add(light2);
+
+            // let light3 = new THREE.PointLight(0xc4c4c4, 10);
+            // light3.position.set(0, 100, -500);
+            // scene.add(light3);
+
+            // let light4 = new THREE.PointLight(0xc4c4c4, 10);
+            // light2.position.set(-500, 300, 500);
+            // scene.add(light4);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            
+            let circleGeo = new THREE.CircleGeometry(220, 50);
+            let circleMat = new THREE.MeshBasicMaterial({ color: 0xffccaa });
+            let circle = new THREE.Mesh(circleGeo, circleMat);
+            circle.position.set(0, 100, -500);
+            circle.scale.setX(1.2);
+            scene.add(circle);
+
+
+            let loader = new THREE.GLTFLoader();
+            loader.load('scene.gltf', function (gltf) {
+                let car = gltf.scene.children[0];
+                car.scale.set(100, 100, 100);
+                scene.add(gltf.scene);
+                animate();
+            });
+        }
+
+        function animate() {
+            renderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

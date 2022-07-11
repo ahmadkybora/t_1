@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./node_modules/three/build/three.min.js"></script>
+    <script src="./node_modules/three/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="./node_modules/three/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        let scene, camera, renderer;
+
+        function init() {
+            scene = new THREE.Scene;
+            scene.background = new THREE.Color(0xdddddd);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 5000);
+            camera.position.x = 300;
+            camera.position.y = 100;
+            camera.position.z = 250;
+
+            renderer = new THREE.WebGlRenderer();
+            renderer.setSize(window.innerWidth / window.innerHeight);
+            documnet.body.appendChild(renderer.domElement);
+
+            animate();
+        }
+
+        function animate() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+    </script>
+</body>
+</html>
